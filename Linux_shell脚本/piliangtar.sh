@@ -8,3 +8,4 @@ for x in $file
           tar -zxvf $x 
        done
 rm -rf ls.log
+sleep 5

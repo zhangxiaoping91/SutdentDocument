@@ -45,3 +45,4 @@ else
    exit 10
   
 fi 
+sleep 4
