@@ -43,3 +43,17 @@ if [[ $# -eq 0  ]]
 	rm -rf /tmp/who
 
 fi
+
+ #system use 系统使用内存
+       systemUserage=$(awk '/MemTotal/{total=$2}/MemFree/{free=$2}END{print (total-free)/1024}'   /proc/meminfo)
+       echo -e '\E[32m' "systemUserage："$reset_terminal $systemUserage'M'
+ #application usr 应用使用内存
+       applicationUserage=$(awk '/MemTotal/{total=$2}/MemFree/{free=$2}/^Cached/{cache=$2}/Buffers/{buffer=$2}END{print (total-free-cache-buffer)/1024}'   /proc/meminfo)
+       echo -e '\E[32m' "applicationUserage："$reset_terminal $applicationUserage'M'
+
+ #load average 操作系统负载
+      	loadaverage=$(top -n 1 -b | grep 'load average' | awk '{print $10 $11 $12}')
+ 	echo -e '\E[32m' "loadaverage："$reset_terminal $loadaverage
+ #磁盘使用率
+	dfused=$(df -hP | grep -vE '文件系统|tmpfs' | awk '{print $1" "$5}')
+	echo -e '\E[32m' "dfused："$reset_terminal $dfused
